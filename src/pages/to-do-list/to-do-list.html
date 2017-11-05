@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-searchbar [(ngModel)]="searchText"></ion-searchbar>
+  </ion-navbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="situation" color="dark">
+      <ion-segment-button value="todo">
+        To Do
+      </ion-segment-button>
+      <ion-segment-button value="done">
+        Done
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-card>
+    <ion-list>
+      <ion-item-sliding *ngFor="let item of filterAndSort(items)" #slidingItem>
+        <ion-item text-wrap>
+          <h2>{{item.text}}</h2>
+        </ion-item>
+        <ion-item-options side="left">
+          <button ion-button color="warning" (click)="openForm(item, slidingItem)">
+            <ion-icon name="create"></ion-icon>
+            Edit
+          </button>
+          <button ion-button (click)="toggleDone(item, slidingItem)">
+            <ion-icon name="checkbox-outline"></ion-icon>
+            <span *ngIf="!item.done">Check</span>
+            <span *ngIf="item.done">Uncheck</span>
+          </button>
+        </ion-item-options>
+        <ion-item-options side="right">
+          <button ion-button color="danger" (click)="confirmDelete(item)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </ion-card>
+  <ion-fab right bottom>
+    <button ion-fab color="secondary" (click)="openForm()">
+      <ion-icon name="md-add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>
